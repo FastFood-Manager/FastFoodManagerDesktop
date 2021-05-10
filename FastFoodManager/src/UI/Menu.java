@@ -111,6 +111,11 @@ public class Menu extends javax.swing.JFrame {
         jMenu10.setText("Cardápio");
 
         jMenuItem9.setText("Visualizar");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
         jMenu10.add(jMenuItem9);
 
         jMenu11.setText("Opções");
@@ -179,6 +184,11 @@ public class Menu extends javax.swing.JFrame {
         jMenu9.setText("Cálculos");
 
         jMenuItem14.setText("Calculadora");
+        jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem14ActionPerformed(evt);
+            }
+        });
         jMenu9.add(jMenuItem14);
 
         jMenuBar1.add(jMenu9);
@@ -186,6 +196,11 @@ public class Menu extends javax.swing.JFrame {
         jMenu1.setText("Conta");
 
         jMenuItem11.setText("Visualizar");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem11);
         jMenu1.add(jSeparator1);
 
@@ -203,9 +218,19 @@ public class Menu extends javax.swing.JFrame {
         jMenu4.setText("Sobre");
 
         jMenuItem7.setText("Ajuda");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem7);
 
         jMenuItem8.setText("Sobre nós");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem8);
 
         jMenuItem1.setText("Versão");
@@ -286,31 +311,68 @@ public class Menu extends javax.swing.JFrame {
         } 
     }//GEN-LAST:event_jMenuItem22ActionPerformed
 
+    private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
+        // Calculadora
+        Calculadora calc = Calculadora.getInstance();
+        calc.pack();
+        
+        if(!calc.isVisible()) {
+            jDesktopPane1.add(calc);
+            calc.setVisible(true);
+        } else {
+            calc.moveToFront();
+        } 
+    }//GEN-LAST:event_jMenuItem14ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        // Menu de Ajuda
+        MenuAjuda menuAjuda = MenuAjuda.getInstance();
+        menuAjuda.pack();
+        
+        if(!menuAjuda.isVisible()) {
+            jDesktopPane1.add(menuAjuda);
+            menuAjuda.setVisible(true);
+        } else {
+            menuAjuda.moveToFront();
+        } 
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        // Sobre nós
+        MenuSobreNos menuSobreNos = MenuSobreNos.getInstance();
+        menuSobreNos.pack();
+        
+        if(!menuSobreNos.isVisible()) {
+            jDesktopPane1.add(menuSobreNos);
+            menuSobreNos.setVisible(true);
+        } else {
+            menuSobreNos.moveToFront();
+        } 
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        // Sobre nós
+        ContaUsuario contaUsuario = ContaUsuario.getInstance();
+        contaUsuario.pack();
+        
+        if(!contaUsuario.isVisible()) {
+            jDesktopPane1.add(contaUsuario);
+            contaUsuario.setVisible(true);
+        } else {
+            contaUsuario.moveToFront();
+        } 
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        // Cardápio
+        Cardapio cardapio = new Cardapio();
+        cardapio.setVisible(true);
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
         //</editor-fold>
         //</editor-fold>
 

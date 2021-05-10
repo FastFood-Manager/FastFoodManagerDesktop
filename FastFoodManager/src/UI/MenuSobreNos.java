@@ -9,20 +9,18 @@ package UI;
  *
  * @author marco
  */
-public class ContasAPagar extends javax.swing.JInternalFrame {
-    private static ContasAPagar myInstance;
+public class MenuSobreNos extends javax.swing.JInternalFrame {
+    private static MenuSobreNos myInstance;
     
-    public static ContasAPagar getInstance(){
-        if(myInstance == null) {
-            myInstance = new ContasAPagar();
+        public static MenuSobreNos getInstance(){
+            if(myInstance == null) {
+                myInstance = new MenuSobreNos();
+            }
+        
+            return myInstance;
         }
         
-        return myInstance;
-    }
-    /**
-     * Creates new form CategoriaProduto
-     */
-    public ContasAPagar() {
+    public MenuSobreNos() {
         initComponents();
     }
 
@@ -35,21 +33,22 @@ public class ContasAPagar extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+
         setClosable(true);
         setIconifiable(true);
-        setMaximizable(true);
-        setResizable(true);
-        setTitle("Contas a Pagar");
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Sobre nós.png"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 394, Short.MAX_VALUE)
+            .addComponent(jLabel1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 274, Short.MAX_VALUE)
+            .addComponent(jLabel1)
         );
 
         pack();
@@ -57,5 +56,6 @@ public class ContasAPagar extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
