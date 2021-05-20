@@ -5,12 +5,15 @@
  */
 package UI;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author marco
  */
 public class ContasAPagar extends javax.swing.JInternalFrame {
     private static ContasAPagar myInstance;
+    MySQL conectar = new MySQL();                   //Instancia classe MySQL
     
     public static ContasAPagar getInstance(){
         if(myInstance == null) {
@@ -40,11 +43,11 @@ public class ContasAPagar extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        DescricaoPagar = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jFormattedTextField2 = new javax.swing.JFormattedTextField();
-        jTextField1 = new javax.swing.JTextField();
+        DataPagar = new javax.swing.JFormattedTextField();
+        ValorPagar = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
 
@@ -53,7 +56,7 @@ public class ContasAPagar extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("Contas a Pagar");
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(41, 43, 45)), "A pagar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12), new java.awt.Color(0, 255, 0))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "A pagar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 255, 0))); // NOI18N
 
         jLabel1.setText("Valor");
 
@@ -61,23 +64,28 @@ public class ContasAPagar extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Descrição");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        DescricaoPagar.setColumns(20);
+        DescricaoPagar.setRows(5);
+        jScrollPane1.setViewportView(DescricaoPagar);
 
         jButton1.setText("Limpar campos");
 
         jButton2.setText("Lançar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         try {
-            jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+            DataPagar.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        jFormattedTextField2.setText("                       /  /    ");
-        jFormattedTextField2.addActionListener(new java.awt.event.ActionListener() {
+        DataPagar.setText("                       /  /    ");
+        DataPagar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jFormattedTextField2ActionPerformed(evt);
+                DataPagarActionPerformed(evt);
             }
         });
 
@@ -108,8 +116,8 @@ public class ContasAPagar extends javax.swing.JInternalFrame {
                                 .addComponent(jButton2))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE))
+                                    .addComponent(ValorPagar, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(DataPagar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel4)
                                 .addGap(14, 14, 14)))
@@ -130,14 +138,14 @@ public class ContasAPagar extends javax.swing.JInternalFrame {
                                 .addGap(32, 32, 32)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel1)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(ValorPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(21, 21, 21)
                                 .addComponent(jLabel4)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(DataPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel5))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -169,15 +177,56 @@ public class ContasAPagar extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jFormattedTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField2ActionPerformed
+    private void DataPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DataPagarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jFormattedTextField2ActionPerformed
+    }//GEN-LAST:event_DataPagarActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    if(ValorPagar.getText().equals("") ||  DataPagar.getText().equals("") || DescricaoPagar.getText().equals("")){      //Check se algum campo está vazio
+        JOptionPane.showMessageDialog (null, "Algum campo não preeenchido, Tente novamente");                           //Alert de Campo não preenchido
+    }
+    else{
+        
+        conectar.conectaBanco();    //Conecta ao banco de dados
+        
+        Double Pagar_Valor = Double.parseDouble(ValorPagar.getText());
+        String Pagar_Data = DataPagar.getText();
+        String Pagar_Descricao = DescricaoPagar.getText();
+        
+        
+        try {                          
+                        
+            this.conectar.insertSQL("INSERT INTO  Contas_Pagar("
+                    
+                    + "Pagar_Valor,"
+                    + "Pagar_Data_Vencimento,"
+                    + "Pagar_Descricao"
+                + ") VALUES ("
+                    + "'" + Pagar_Valor + "',"
+                    + "'" + Pagar_Data + "',"
+                    + "'" + Pagar_Descricao + "'"
+                + ");");
+            
+        } catch (Exception e) {
+            
+            System.out.println("Erro ao cadastrar cliente " +  e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao lançar contas a pagar");
+    
+        }finally{            
+            this.conectar.fechaBanco();
+            JOptionPane.showMessageDialog(null, "Conta Lançada com sucesso");
+               }
+        
+    }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JFormattedTextField DataPagar;
+    private javax.swing.JTextArea DescricaoPagar;
+    private javax.swing.JTextField ValorPagar;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -185,7 +234,5 @@ public class ContasAPagar extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
