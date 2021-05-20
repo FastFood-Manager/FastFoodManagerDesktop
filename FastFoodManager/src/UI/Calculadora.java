@@ -5,11 +5,23 @@
  */
 package UI;
 
+import javax.swing.JOptionPane;
 /**
  *
  * @author marco
  */
 public class Calculadora extends javax.swing.JInternalFrame {
+    // Declaração de variáveis
+    private double TEMP;
+    private double SolveTEMP;
+    Boolean addBool = false;
+    Boolean subBool = false;
+    Boolean divBool = false;
+    Boolean multBool = false;
+    Boolean pointBool = false;
+    String display = "";
+    
+    // Método "My Instance"
     private static Calculadora myInstance;
     
         public static Calculadora getInstance(){
@@ -33,148 +45,257 @@ public class Calculadora extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        sete = new javax.swing.JButton();
-        oito = new javax.swing.JButton();
-        nove = new javax.swing.JButton();
-        quatro = new javax.swing.JButton();
-        cinco = new javax.swing.JButton();
-        seis = new javax.swing.JButton();
-        um = new javax.swing.JButton();
-        dois = new javax.swing.JButton();
-        tres = new javax.swing.JButton();
-        zero = new javax.swing.JButton();
-        igual = new javax.swing.JButton();
-        backspace = new javax.swing.JButton();
-        calcPanel = new javax.swing.JTextField();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
-        jFormattedTextField2 = new javax.swing.JFormattedTextField();
-        jFormattedTextField3 = new javax.swing.JFormattedTextField();
-        jFormattedTextField4 = new javax.swing.JFormattedTextField();
+        painelCalculadora = new javax.swing.JPanel();
+        botaoSete = new javax.swing.JButton();
+        botaoOito = new javax.swing.JButton();
+        botaoNove = new javax.swing.JButton();
+        botaoQuatro = new javax.swing.JButton();
+        botaoCinco = new javax.swing.JButton();
+        botaoSeis = new javax.swing.JButton();
+        botaoUm = new javax.swing.JButton();
+        botaoDois = new javax.swing.JButton();
+        botaoTres = new javax.swing.JButton();
+        botaoZero = new javax.swing.JButton();
+        botaoIgual = new javax.swing.JButton();
+        botaoCa = new javax.swing.JButton();
+        painelResultado = new javax.swing.JTextField();
+        botaoPonto = new javax.swing.JButton();
+        botaoSoma = new javax.swing.JButton();
+        botaoSubtracao = new javax.swing.JButton();
+        botaoDivisao = new javax.swing.JButton();
+        botaoMultiplicacao = new javax.swing.JButton();
+        botaoCe = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
         setTitle("Calculadora");
 
-        sete.setText("7");
-
-        oito.setText("8");
-
-        nove.setText("9");
-
-        quatro.setText("4");
-
-        cinco.setText("5");
-
-        seis.setText("6");
-
-        um.setText("1");
-
-        dois.setText("2");
-
-        tres.setText("3");
-
-        zero.setText("0");
-
-        igual.setText("=");
-
-        backspace.setText("←");
-
-        jFormattedTextField1.setText("   +");
-
-        jFormattedTextField2.setText("    /  ");
-
-        jFormattedTextField3.setText("    *");
-        jFormattedTextField3.addActionListener(new java.awt.event.ActionListener() {
+        botaoSete.setText("7");
+        botaoSete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jFormattedTextField3ActionPerformed(evt);
+                botaoSeteActionPerformed(evt);
             }
         });
 
-        jFormattedTextField4.setText("    -");
+        botaoOito.setText("8");
+        botaoOito.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoOitoActionPerformed(evt);
+            }
+        });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(calcPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(zero, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(um)
+        botaoNove.setText("9");
+        botaoNove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoNoveActionPerformed(evt);
+            }
+        });
+
+        botaoQuatro.setText("4");
+        botaoQuatro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoQuatroActionPerformed(evt);
+            }
+        });
+
+        botaoCinco.setText("5");
+        botaoCinco.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoCincoActionPerformed(evt);
+            }
+        });
+
+        botaoSeis.setText("6");
+        botaoSeis.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoSeisActionPerformed(evt);
+            }
+        });
+
+        botaoUm.setText("1");
+        botaoUm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoUmActionPerformed(evt);
+            }
+        });
+
+        botaoDois.setText("2");
+        botaoDois.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoDoisActionPerformed(evt);
+            }
+        });
+
+        botaoTres.setText("3");
+        botaoTres.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoTresActionPerformed(evt);
+            }
+        });
+
+        botaoZero.setText("0");
+        botaoZero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoZeroActionPerformed(evt);
+            }
+        });
+
+        botaoIgual.setText("=");
+        botaoIgual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoIgualActionPerformed(evt);
+            }
+        });
+
+        botaoCa.setText("CA");
+        botaoCa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoCaActionPerformed(evt);
+            }
+        });
+
+        painelResultado.setBackground(new java.awt.Color(153, 153, 255));
+        painelResultado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                painelResultadoActionPerformed(evt);
+            }
+        });
+
+        botaoPonto.setText(".");
+        botaoPonto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoPontoActionPerformed(evt);
+            }
+        });
+
+        botaoSoma.setBackground(new java.awt.Color(255, 102, 255));
+        botaoSoma.setText("+");
+        botaoSoma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoSomaActionPerformed(evt);
+            }
+        });
+
+        botaoSubtracao.setBackground(new java.awt.Color(255, 102, 255));
+        botaoSubtracao.setText("-");
+        botaoSubtracao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoSubtracaoActionPerformed(evt);
+            }
+        });
+
+        botaoDivisao.setBackground(new java.awt.Color(255, 102, 255));
+        botaoDivisao.setText("/");
+        botaoDivisao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoDivisaoActionPerformed(evt);
+            }
+        });
+
+        botaoMultiplicacao.setBackground(new java.awt.Color(255, 102, 255));
+        botaoMultiplicacao.setText("*");
+        botaoMultiplicacao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoMultiplicacaoActionPerformed(evt);
+            }
+        });
+
+        botaoCe.setText("CE");
+        botaoCe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoCeActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout painelCalculadoraLayout = new javax.swing.GroupLayout(painelCalculadora);
+        painelCalculadora.setLayout(painelCalculadoraLayout);
+        painelCalculadoraLayout.setHorizontalGroup(
+            painelCalculadoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painelCalculadoraLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(painelCalculadoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painelCalculadoraLayout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addGroup(painelCalculadoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelCalculadoraLayout.createSequentialGroup()
+                                .addComponent(botaoZero)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(dois)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tres)))
+                                .addComponent(botaoPonto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(painelCalculadoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(painelCalculadoraLayout.createSequentialGroup()
+                                    .addGroup(painelCalculadoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(botaoQuatro)
+                                        .addComponent(botaoSete))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(painelCalculadoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(botaoCinco)
+                                        .addComponent(botaoOito))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(painelCalculadoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(botaoNove)
+                                        .addComponent(botaoSeis)))
+                                .addGroup(painelCalculadoraLayout.createSequentialGroup()
+                                    .addComponent(botaoUm)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(botaoDois)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(botaoTres))))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(igual, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jFormattedTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(sete)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(oito)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(nove)
-                                .addGap(18, 18, 18)
-                                .addComponent(backspace, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(quatro)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cinco)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(seis)
-                                .addGap(18, 18, 18)
-                                .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGroup(painelCalculadoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(painelCalculadoraLayout.createSequentialGroup()
+                                .addGroup(painelCalculadoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(painelCalculadoraLayout.createSequentialGroup()
+                                        .addGroup(painelCalculadoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(botaoSoma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(botaoCa, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(botaoMultiplicacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(painelCalculadoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(botaoCe, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(botaoSubtracao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(botaoDivisao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(botaoIgual, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(painelResultado))
+                .addGap(19, 19, 19))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(calcPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+        painelCalculadoraLayout.setVerticalGroup(
+            painelCalculadoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painelCalculadoraLayout.createSequentialGroup()
+                .addComponent(painelResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(sete)
-                    .addComponent(oito)
-                    .addComponent(nove)
-                    .addComponent(backspace))
+                .addGroup(painelCalculadoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botaoSete)
+                    .addComponent(botaoOito)
+                    .addComponent(botaoNove)
+                    .addComponent(botaoCa)
+                    .addComponent(botaoCe))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(quatro)
-                    .addComponent(cinco)
-                    .addComponent(seis)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(um)
-                    .addComponent(dois)
-                    .addComponent(tres)
-                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFormattedTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(zero)
-                    .addComponent(igual))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(painelCalculadoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painelCalculadoraLayout.createSequentialGroup()
+                        .addGroup(painelCalculadoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(botaoSoma)
+                            .addComponent(botaoSubtracao))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(botaoDivisao))
+                    .addGroup(painelCalculadoraLayout.createSequentialGroup()
+                        .addGroup(painelCalculadoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(botaoSeis)
+                            .addComponent(botaoCinco)
+                            .addComponent(botaoQuatro))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(painelCalculadoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(botaoUm)
+                            .addComponent(botaoDois)
+                            .addComponent(botaoTres)
+                            .addComponent(botaoMultiplicacao))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(painelCalculadoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(botaoPonto)
+                            .addComponent(botaoIgual)
+                            .addComponent(botaoZero, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
         );
-
-        jFormattedTextField4.getAccessibleContext().setAccessibleName("");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -182,43 +303,224 @@ public class Calculadora extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(painelCalculadora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(painelCalculadora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jFormattedTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField3ActionPerformed
+    private void painelResultadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_painelResultadoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jFormattedTextField3ActionPerformed
+    }//GEN-LAST:event_painelResultadoActionPerformed
+
+    private void botaoSeteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSeteActionPerformed
+        // Botão 7 da calculadora
+        display = painelResultado.getText();
+        painelResultado.setText(display + "7");
+    }//GEN-LAST:event_botaoSeteActionPerformed
+
+    private void botaoOitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoOitoActionPerformed
+        // Botão 8 da calculadora
+        display = painelResultado.getText();
+        painelResultado.setText(display + "8");
+    }//GEN-LAST:event_botaoOitoActionPerformed
+
+    private void botaoNoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoNoveActionPerformed
+        // Botão 9 da calculadora
+        display = painelResultado.getText();
+        painelResultado.setText(display + "9");
+    }//GEN-LAST:event_botaoNoveActionPerformed
+
+    private void botaoQuatroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoQuatroActionPerformed
+        // Botão 4 da calculadora
+        display = painelResultado.getText();
+        painelResultado.setText(display + "4");
+    }//GEN-LAST:event_botaoQuatroActionPerformed
+
+    private void botaoCincoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCincoActionPerformed
+        // Botão 5 da calculadora
+        display = painelResultado.getText();
+        painelResultado.setText(display + "5");
+    }//GEN-LAST:event_botaoCincoActionPerformed
+
+    private void botaoSeisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSeisActionPerformed
+        // Botão 6 da calculadora
+        display = painelResultado.getText();
+        painelResultado.setText(display + "6");
+    }//GEN-LAST:event_botaoSeisActionPerformed
+
+    private void botaoUmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoUmActionPerformed
+        // Botão 1 da calculadora
+        display = painelResultado.getText();
+        painelResultado.setText(display + "1");
+    }//GEN-LAST:event_botaoUmActionPerformed
+
+    private void botaoDoisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoDoisActionPerformed
+        // Botão 2 da calculadora
+        display = painelResultado.getText();
+        painelResultado.setText(display + "2");
+    }//GEN-LAST:event_botaoDoisActionPerformed
+
+    private void botaoTresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoTresActionPerformed
+        // Botão 3 da calculadora
+        display = painelResultado.getText();
+        painelResultado.setText(display + "3");
+    }//GEN-LAST:event_botaoTresActionPerformed
+
+    private void botaoZeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoZeroActionPerformed
+        // Botão 0 da calculadora
+        display = painelResultado.getText();
+        painelResultado.setText(display + "0");
+    }//GEN-LAST:event_botaoZeroActionPerformed
+
+    private void botaoPontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPontoActionPerformed
+        // Botão "ponto" da calculadora
+        if(!pointBool) {
+            String digitStr = painelResultado.getText();
+            if(!digitStr.isEmpty()) {
+                display = painelResultado.getText();
+                painelResultado.setText(display + ".");
+                pointBool = true;
+            }
+        }
+    }//GEN-LAST:event_botaoPontoActionPerformed
+
+    private void botaoSomaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSomaActionPerformed
+        // Botão "soma" da calculadora
+        if(!painelResultado.getText().isEmpty()) {
+            TEMP = Double.parseDouble(painelResultado.getText());
+            painelResultado.setText("");
+            addBool = true;
+            
+            if(pointBool) {
+                pointBool = false;
+            }
+        }
+    }//GEN-LAST:event_botaoSomaActionPerformed
+
+    private void botaoSubtracaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSubtracaoActionPerformed
+        // Botão "subtração" da calculadora
+        if(!painelResultado.getText().isEmpty()) {
+            TEMP = Double.parseDouble(painelResultado.getText());
+            painelResultado.setText("");
+            subBool = true;
+            
+            if(pointBool) {
+                pointBool = false;
+            }
+        }
+    }//GEN-LAST:event_botaoSubtracaoActionPerformed
+
+    private void botaoMultiplicacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoMultiplicacaoActionPerformed
+        // Botão "multiplicação" da calculadora
+        if(!painelResultado.getText().isEmpty()) {
+            TEMP = Double.parseDouble(painelResultado.getText());
+            painelResultado.setText("");
+            multBool = true;
+            
+            if(pointBool) {
+                pointBool = false;
+            }
+        }
+    }//GEN-LAST:event_botaoMultiplicacaoActionPerformed
+
+    private void botaoDivisaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoDivisaoActionPerformed
+        // Botão "divisão" da calculadora
+        if(!painelResultado.getText().isEmpty()) {
+            TEMP = Double.parseDouble(painelResultado.getText());
+            painelResultado.setText("");
+            divBool = true;
+            
+            if(pointBool) {
+                pointBool = false;
+            }
+        }
+    }//GEN-LAST:event_botaoDivisaoActionPerformed
+
+    private void botaoIgualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoIgualActionPerformed
+        // Botão resultado
+        if(!painelResultado.getText().isEmpty()) {
+            SolveTEMP = Double.parseDouble(painelResultado.getText());
+            if(addBool == true) {
+                SolveTEMP = SolveTEMP + TEMP;
+            } else if(subBool == true) {
+                SolveTEMP = TEMP - SolveTEMP;
+            } else if(multBool == true) {
+                SolveTEMP = SolveTEMP * TEMP;
+            } else if(divBool == true) {
+                SolveTEMP = SolveTEMP / TEMP;
+            }
+            
+            painelResultado.setText(Double.toString(SolveTEMP));
+            
+            addBool = false;
+            subBool = false;
+            multBool = false;
+            divBool = false;
+            pointBool = true;
+            
+        } else {
+            JOptionPane.showMessageDialog(this, "O segundo valor é nulo");
+            pointBool = true;
+            return;
+        }
+    }//GEN-LAST:event_botaoIgualActionPerformed
+
+    private void botaoCaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCaActionPerformed
+        // Botão "clear all" da calculadora
+        painelResultado.setText("");
+        addBool = false;
+        subBool = false;
+        multBool = false;
+        divBool = false;
+        
+        TEMP = 0;
+        SolveTEMP = 0;
+        pointBool = false;
+    }//GEN-LAST:event_botaoCaActionPerformed
+
+    private void botaoCeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCeActionPerformed
+        // Botão "CE" da calculadora
+        painelResultado.setText("");
+        addBool = false;
+        subBool = false;
+        multBool = false;
+        divBool = false;
+        
+        TEMP = 0;
+        SolveTEMP = 0;
+        pointBool = false;
+    }//GEN-LAST:event_botaoCeActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton backspace;
-    private javax.swing.JTextField calcPanel;
-    private javax.swing.JButton cinco;
-    private javax.swing.JButton dois;
-    private javax.swing.JButton igual;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
-    private javax.swing.JFormattedTextField jFormattedTextField2;
-    private javax.swing.JFormattedTextField jFormattedTextField3;
-    private javax.swing.JFormattedTextField jFormattedTextField4;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JButton nove;
-    private javax.swing.JButton oito;
-    private javax.swing.JButton quatro;
-    private javax.swing.JButton seis;
-    private javax.swing.JButton sete;
-    private javax.swing.JButton tres;
-    private javax.swing.JButton um;
-    private javax.swing.JButton zero;
+    private javax.swing.JButton botaoCa;
+    private javax.swing.JButton botaoCe;
+    private javax.swing.JButton botaoCinco;
+    private javax.swing.JButton botaoDivisao;
+    private javax.swing.JButton botaoDois;
+    private javax.swing.JButton botaoIgual;
+    private javax.swing.JButton botaoMultiplicacao;
+    private javax.swing.JButton botaoNove;
+    private javax.swing.JButton botaoOito;
+    private javax.swing.JButton botaoPonto;
+    private javax.swing.JButton botaoQuatro;
+    private javax.swing.JButton botaoSeis;
+    private javax.swing.JButton botaoSete;
+    private javax.swing.JButton botaoSoma;
+    private javax.swing.JButton botaoSubtracao;
+    private javax.swing.JButton botaoTres;
+    private javax.swing.JButton botaoUm;
+    private javax.swing.JButton botaoZero;
+    private javax.swing.JPanel painelCalculadora;
+    private javax.swing.JTextField painelResultado;
     // End of variables declaration//GEN-END:variables
 }
