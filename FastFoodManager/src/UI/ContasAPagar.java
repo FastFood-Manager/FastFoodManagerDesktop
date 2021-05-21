@@ -107,25 +107,21 @@ public class ContasAPagar extends javax.swing.JInternalFrame {
                         .addGap(57, 57, 57)
                         .addComponent(jLabel3)))
                 .addGap(23, 23, 23)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jButton1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
-                                .addComponent(jButton2))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(ValorPagar, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(DataPagar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel4)
-                                .addGap(14, 14, 14)))
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                        .addComponent(jButton2))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(ValorPagar, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(DataPagar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel5))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 85, Short.MAX_VALUE)))
+                        .addComponent(jLabel4)
+                        .addGap(14, 14, 14))
+                    .addComponent(jScrollPane1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel5)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -155,7 +151,7 @@ public class ContasAPagar extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(65, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -209,7 +205,7 @@ public class ContasAPagar extends javax.swing.JInternalFrame {
             
         } catch (Exception e) {
             
-            System.out.println("Erro ao cadastrar cliente " +  e.getMessage());
+            System.out.println("Erro ao lançar contas a pagar " +  e.getMessage());
             JOptionPane.showMessageDialog(null, "Erro ao lançar contas a pagar");
     
         }finally{            
