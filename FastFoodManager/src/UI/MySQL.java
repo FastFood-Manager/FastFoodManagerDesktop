@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -20,6 +23,7 @@ public class MySQL {
     private String nomeDoBanco = "FastFoodManager";
     private String usuario = "root";
     private String senha = "root";
+    
     
     public MySQL(){
     }
@@ -126,5 +130,4 @@ public class MySQL {
         }
         return true;
     }
-    
 }

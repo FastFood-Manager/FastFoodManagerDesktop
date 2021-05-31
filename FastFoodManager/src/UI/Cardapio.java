@@ -5,6 +5,8 @@
  */
 package UI;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -13,7 +15,9 @@ import javax.swing.JOptionPane;
  */
 public class Cardapio extends javax.swing.JInternalFrame {
 
+        ArrayList<ItemCardapio>ItemCard = new ArrayList<>();
         MySQL conectar = new MySQL();
+        
     private static Cardapio myInstance;
     
         public static Cardapio getInstance(){
@@ -41,6 +45,7 @@ public class Cardapio extends javax.swing.JInternalFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setClosable(true);
@@ -66,13 +71,26 @@ public class Cardapio extends javax.swing.JInternalFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 600, 190, 30));
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 560, 150, 30));
 
         jButton3.setText("Excluir");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 650, 90, -1));
 
+        jButton4.setText("Editar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 610, 110, -1));
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Cardapio.png"))); // NOI18N
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 24, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -80,7 +98,7 @@ public class Cardapio extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 571, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -118,7 +136,7 @@ public class Cardapio extends javax.swing.JInternalFrame {
             System.out.println("Erro ao lançar contas a receber " +  e.getMessage());
             JOptionPane.showMessageDialog(null, "Erro ao lançar contas a receber");
     
-        }finally{            
+        }finally{
             this.conectar.fechaBanco();
             JOptionPane.showMessageDialog(null, "Conta Lançada com sucesso");
                }
@@ -126,15 +144,92 @@ public class Cardapio extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+
+        this.conectar.conectaBanco();
+                
+        try {
+            this.conectar.executarSQL(
+                "SELECT * From Cardapio;"
+            );   
+            ResultSet rs = this.conectar.getResultSet();
+            while(rs.next()){
+                ItemCard.add(new ItemCardapio(rs.getString("Item_ID") + " | ", 
+                        rs.getString("Item_nome") + " | ", 
+                        rs.getString("Item_Igredientes") + " | ", 
+                        rs.getString("Item_valor")));
+            }       
+            
+        } catch (Exception e) {            
+            System.out.println("Erro ao consultar Cardapio " +  e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao consultar Cardapio");            
+        }finally{
+            this.conectar.fechaBanco();
+        }
+        
+        String msg = "";
+                    for (ItemCardapio IC : ItemCard) {
+                        msg += IC.Imprimir() + "\n";
+                    }
+                    JOptionPane.showMessageDialog(null, msg);       
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    
+    
+    
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        String id = JOptionPane.showInputDialog("ID do item que deseja excluir");
+        this.conectar.conectaBanco();
+        try {
+            this.conectar.updateSQL(
+                "DELETE FROM cardapio "
+                + " WHERE "
+                    + "item_ID = '" + id + "'"
+                + ";"
+            );
+            JOptionPane.showMessageDialog(null, "Item excluido!!");
+                
+        } catch (Exception e) {
+            System.out.println("Erro ao deletar item " +  e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao deletar item");
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        String idEdit = JOptionPane.showInputDialog("ID do item que deseja alterar");
+        String EditNome = JOptionPane.showInputDialog("Nome:");
+        String EditIngredientes = JOptionPane.showInputDialog("Ingredientes:");
+        String EditValor = JOptionPane.showInputDialog("Valor:");
+        
+        
+        this.conectar.conectaBanco();
+        try {
+            this.conectar.updateSQL(
+                "UPDATE cardapio "
+                + " SET "
+                    + "item_nome = '" + EditNome + "',"
+                    + "Item_Igredientes = '" + EditIngredientes + "',"
+                    + "item_Valor = '" + EditValor + "'"
+                    + " WHERE "
+                    + "item_ID = '" + idEdit + "'"
+                + ";"
+            );
+            JOptionPane.showMessageDialog(null, "Item Editado!");
+                
+        } catch (Exception e) {
+            System.out.println("Erro ao deletar item " +  e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao deletar item");
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
