@@ -43,7 +43,7 @@ public class Versao extends javax.swing.JDialog {
 
         jTextField2.setEditable(false);
         jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField2.setText("10/05/2021");
+        jTextField2.setText("31/05/2021");
         jTextField2.setName(""); // NOI18N
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -3,30 +3,30 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package UI;
+package models;
 
 /**
  *
  * @author Henrique
  */
 public class ItemCardapio {
-    String ID;
+    int ID;
     String Nome;
     String Ingredientes;
-    String valor;
+    double valor;
     
-    public ItemCardapio(String ID, String Nome, String Ingredientes, String valor){
+    public ItemCardapio(int ID, String Nome, String Ingredientes, double valor){
         this.ID = ID;
         this.Nome = Nome;
         this.Ingredientes = Ingredientes;
         this.valor = valor;
     }   
 
-    public String getID() {
+    public int getID() {
         return ID;
     }
 
-    public void setID(String ID) {
+    public void setID(int ID) {
         this.ID = ID;
     }
 
@@ -46,11 +46,11 @@ public class ItemCardapio {
         this.Ingredientes = Ingredientes;
     }
 
-    public String getValor() {
+    public double getValor() {
         return valor;
     }
 
-    public void setValor(String valor) {
+    public void setValor(double valor) {
         this.valor = valor;
     }
     
