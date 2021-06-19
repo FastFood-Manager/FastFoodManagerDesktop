@@ -5,22 +5,32 @@
  */
 package UI;
 
+import models.ItemCardapio;
+import dao.CardapioDAO;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author marco
  */
 public class Cardapio extends javax.swing.JInternalFrame {
 
+    ArrayList<ItemCardapio> ItemCard ;
+    MySQL conectar = new MySQL();
+    CardapioDAO cardapioDAO = new CardapioDAO();
+
     private static Cardapio myInstance;
-    
-        public static Cardapio getInstance(){
-            if(myInstance == null) {
-                myInstance = new Cardapio();
-            }
-        
-            return myInstance;
+
+    public static Cardapio getInstance() {
+        if (myInstance == null) {
+            myInstance = new Cardapio();
         }
-        
+
+        return myInstance;
+    }
+
     public Cardapio() {
         initComponents();
     }
@@ -35,18 +45,12 @@ public class Cardapio extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
 
         setClosable(true);
@@ -54,64 +58,57 @@ public class Cardapio extends javax.swing.JInternalFrame {
         setTitle("Cardápio");
         setAutoscrolls(true);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(41, 43, 45)), "Cardápio", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12), new java.awt.Color(51, 255, 204))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cardápio", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(51, 255, 204))); // NOI18N
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setForeground(new java.awt.Color(255, 102, 102));
-        jLabel2.setText("  X-Tudo");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(129, 470, 60, 20));
-
-        jLabel3.setForeground(new java.awt.Color(255, 102, 102));
-        jLabel3.setText("Cachorrão simples");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 270, -1, 20));
-
-        jLabel4.setForeground(new java.awt.Color(255, 102, 102));
-        jLabel4.setText("Cachorrão especial");
-        jLabel4.setToolTipText("");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 310, -1, 20));
-
-        jLabel5.setForeground(new java.awt.Color(255, 102, 102));
-        jLabel5.setText("X-Salada");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 350, -1, 20));
-
-        jLabel6.setForeground(new java.awt.Color(255, 102, 102));
-        jLabel6.setText("X-Bacon");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 390, -1, 20));
-
-        jLabel7.setForeground(new java.awt.Color(255, 102, 102));
-        jLabel7.setText("X-Burguer");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 430, -1, 20));
-
-        jTextField1.setText("Ingredientes");
-        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 470, 240, -1));
-
-        jTextField2.setText("Ingredientes");
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jButton1.setText("Abrir Cardápio");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 270, 240, -1));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 680, 130, 50));
 
-        jTextField3.setText("Ingredientes");
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        jButton2.setText("Adcionar Item");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                jButton2ActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 310, 240, -1));
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 150, 150, 30));
 
-        jTextField4.setText("Ingredientes");
-        jPanel1.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 350, 240, -1));
+        jButton3.setText("Excluir");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 150, 90, -1));
 
-        jTextField5.setText("Ingredientes");
-        jPanel1.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 390, 240, -1));
+        jButton4.setText("Editar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 110, -1));
 
-        jTextField6.setText("Ingredientes");
-        jPanel1.add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 430, 240, -1));
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"", "", "", null}
+            },
+            new String [] {
+                "ID", "Nome", "Ingredientes", "Valor"
+            }
+        ));
+        jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
+        jScrollPane1.setViewportView(jTable1);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 230, 480, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Cardapio.png"))); // NOI18N
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 24, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -119,7 +116,7 @@ public class Cardapio extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 571, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -132,29 +129,84 @@ public class Cardapio extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        String Nome = JOptionPane.showInputDialog(null, " Nome do Sanduiche: ");
+        String Igredientes = JOptionPane.showInputDialog(null, " Principais igredientes: ");
+        double Valor = Double.parseDouble(JOptionPane.showInputDialog(null, " valor do sanduiche: "));
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+       cardapioDAO.inserir(new ItemCardapio(0, Nome, Igredientes, Valor));
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //ItemCard.clear();
+        try {
+            ItemCard = cardapioDAO.selecionarTodos();
+            ArrayList<String> colunas = new ArrayList<String>();
+            colunas.add("ID");
+            colunas.add("Nome");
+            colunas.add("Ingredientes");
+            colunas.add("valor");
+            jTable1.setModel(utils.TableModelCreator.createTableModel(ItemCardapio.class, ItemCard, colunas));
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao consultar Cardapio");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        String id = JOptionPane.showInputDialog("ID do item que deseja excluir");
+        this.conectar.conectaBanco();
+        try {
+            this.conectar.updateSQL(
+                    "DELETE FROM cardapio "
+                    + " WHERE "
+                    + "item_ID = '" + id + "'"
+                    + ";"
+            );
+            JOptionPane.showMessageDialog(null, "Item excluido!!");
+
+        } catch (Exception e) {
+            System.out.println("Erro ao deletar item " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao deletar item");
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        String idEdit = JOptionPane.showInputDialog("ID do item que deseja alterar");
+        String EditNome = JOptionPane.showInputDialog("Nome:");
+        String EditIngredientes = JOptionPane.showInputDialog("Ingredientes:");
+        String EditValor = JOptionPane.showInputDialog("Valor:");
+
+        this.conectar.conectaBanco();
+        try {
+            this.conectar.updateSQL(
+                    "UPDATE cardapio "
+                    + " SET "
+                    + "item_nome = '" + EditNome + "',"
+                    + "Item_Igredientes = '" + EditIngredientes + "',"
+                    + "item_Valor = '" + EditValor + "'"
+                    + " WHERE "
+                    + "item_ID = '" + idEdit + "'"
+                    + ";"
+            );
+            JOptionPane.showMessageDialog(null, "Item Editado!");
+
+        } catch (Exception e) {
+            System.out.println("Erro ao deletar item " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao deletar item");
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

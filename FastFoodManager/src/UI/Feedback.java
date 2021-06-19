@@ -5,6 +5,8 @@
  */
 package UI;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author marco
@@ -12,7 +14,7 @@ package UI;
 public class Feedback extends javax.swing.JInternalFrame {
 
     private static Feedback myInstance;
-    
+    MySQL conectar = new MySQL(); 
     public static Feedback getInstance(){
         if(myInstance == null) {
             myInstance = new Feedback();
@@ -38,8 +40,8 @@ public class Feedback extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jTextField1 = new javax.swing.JTextField();
+        Comentario = new javax.swing.JTextArea();
+        NumeroEstrelas = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -53,19 +55,29 @@ public class Feedback extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setTitle("Feedback");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(41, 43, 45)), "Feedback", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12), new java.awt.Color(255, 255, 0))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Feedback", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(255, 255, 0))); // NOI18N
 
         jLabel1.setText("Número de estrelas");
 
         jLabel3.setText("Comentário");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        Comentario.setColumns(20);
+        Comentario.setRows(5);
+        jScrollPane1.setViewportView(Comentario);
 
         jButton1.setText("Limpar os campos");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Lançar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/star.png"))); // NOI18N
         jLabel2.setMaximumSize(new java.awt.Dimension(192, 192));
@@ -105,7 +117,7 @@ public class Feedback extends javax.swing.JInternalFrame {
                         .addGap(33, 33, 33)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(NumeroEstrelas, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -137,7 +149,7 @@ public class Feedback extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel1)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(NumeroEstrelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -174,8 +186,55 @@ public class Feedback extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if(NumeroEstrelas.getText().equals("") ||  Comentario.getText().equals("") ){      //Check se algum campo está vazio
+        JOptionPane.showMessageDialog (null, "Algum campo não preeenchido, Tente novamente");                           //Alert de Campo não preenchido
+    }
+    else{
+        
+        conectar.conectaBanco();    //Conecta ao banco de dados
+        
+        Double Valor = Double.parseDouble(NumeroEstrelas.getText());
+        String Coment = Comentario.getText();
+        
+    
+        
+        try {                          
+                        
+            this.conectar.insertSQL("INSERT INTO  Feedback("
+                    
+                    + "Nota,"
+                    + "Descricao"
+                + ") VALUES ("
+                    + "'" + Valor + "',"
+                    + "'" + Coment + "'"
+                + ");");
+            
+        } catch (Exception e) {
+            
+            System.out.println("Erro ao lançar contas a pagar " +  e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao lançar contas a pagar");
+    
+        }finally{            
+            this.conectar.fechaBanco();
+            JOptionPane.showMessageDialog(null, "Conta Lançada com sucesso");
+            Comentario.setText("");
+            NumeroEstrelas.setText("");
+               }
+        
+    }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        Comentario.setText("");
+        NumeroEstrelas.setText("");
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea Comentario;
+    private javax.swing.JTextField NumeroEstrelas;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -188,7 +247,5 @@ public class Feedback extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

@@ -440,7 +440,7 @@ public class Calculadora extends javax.swing.JInternalFrame {
             divBool = true;
             
             if(pointBool) {
-                pointBool = false;
+                pointBool = false;                
             }
         }
     }//GEN-LAST:event_botaoDivisaoActionPerformed
@@ -456,7 +456,7 @@ public class Calculadora extends javax.swing.JInternalFrame {
             } else if(multBool == true) {
                 SolveTEMP = SolveTEMP * TEMP;
             } else if(divBool == true) {
-                SolveTEMP = SolveTEMP / TEMP;
+                SolveTEMP = TEMP / SolveTEMP;
             }
             
             painelResultado.setText(Double.toString(SolveTEMP));
