@@ -192,7 +192,7 @@ public class ContasAPagar extends javax.swing.JInternalFrame {
         
         try {                          
                         
-            this.conectar.insertSQL("INSERT INTO  Contas_Pagar("
+          int codigo =   this.conectar.insertSQL("INSERT INTO  Contas_Pagar("
                     
                     + "Pagar_Valor,"
                     + "Pagar_Data_Vencimento,"

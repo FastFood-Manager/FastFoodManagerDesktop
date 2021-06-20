@@ -53,7 +53,7 @@ public class CardapioDAO {
         try {
             conectar.conectaBanco();
             this.conectar.executarSQL(
-                    "SELECT * From cardapio;"
+                "SELECT * From cardapio;"
             );
             ResultSet rs = this.conectar.getResultSet();
             ArrayList<ItemCardapio> ItemCard = new ArrayList<>();

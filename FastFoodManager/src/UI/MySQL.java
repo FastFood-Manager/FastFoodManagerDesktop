@@ -90,12 +90,15 @@ public class MySQL {
         int status = 0;
         try {
             //createStatement de con para criar o Statement
-            this.setStatement((Statement) getConn().createStatement());            
+            this.setStatement((Statement) getConn().createStatement());  
 
             // Definido o Statement, executamos a query no banco de dados
-            this.getStatement().executeUpdate(SQL);            
-        
+            this.getStatement().executeUpdate(SQL,Statement.RETURN_GENERATED_KEYS );    
+            setResultSet(this.getStatement().getGeneratedKeys());
+            if(this.resultSet.next())
+                return this.resultSet.getInt(1);
             return status;
+        
         } catch (SQLException ex) {
             ex.printStackTrace();
             return status;

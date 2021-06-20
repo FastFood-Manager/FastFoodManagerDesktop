@@ -21,6 +21,7 @@ public class ItemCardapio {
         this.Ingredientes = Ingredientes;
         this.valor = valor;
     }   
+public ItemCardapio(){}
 
     public int getID() {
         return ID;

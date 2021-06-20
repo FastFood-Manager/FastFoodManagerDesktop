@@ -10,6 +10,8 @@ import dao.CardapioDAO;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import models.ItemCarrinho;
 
 /**
  *
@@ -20,6 +22,7 @@ public class Cardapio extends javax.swing.JInternalFrame {
     ArrayList<ItemCardapio> ItemCard ;
     MySQL conectar = new MySQL();
     CardapioDAO cardapioDAO = new CardapioDAO();
+    ArrayList<ItemCarrinho>carrinho = new ArrayList<>();
 
     private static Cardapio myInstance;
 
@@ -46,9 +49,6 @@ public class Cardapio extends javax.swing.JInternalFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
@@ -57,42 +57,36 @@ public class Cardapio extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setTitle("Cardápio");
         setAutoscrolls(true);
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameActivated(evt);
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cardápio", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(51, 255, 204))); // NOI18N
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton1.setText("Abrir Cardápio");
+        jButton1.setText("Ver Pedido");
+        jButton1.setActionCommand("");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
         jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 680, 130, 50));
-
-        jButton2.setText("Adcionar Item");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 150, 150, 30));
-
-        jButton3.setText("Excluir");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 150, 90, -1));
-
-        jButton4.setText("Editar");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 110, -1));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -103,6 +97,11 @@ public class Cardapio extends javax.swing.JInternalFrame {
             }
         ));
         jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTable1MouseReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 230, 480, -1));
@@ -129,18 +128,17 @@ public class Cardapio extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        String Nome = JOptionPane.showInputDialog(null, " Nome do Sanduiche: ");
-        String Igredientes = JOptionPane.showInputDialog(null, " Principais igredientes: ");
-        double Valor = Double.parseDouble(JOptionPane.showInputDialog(null, " valor do sanduiche: "));
-
-       cardapioDAO.inserir(new ItemCardapio(0, Nome, Igredientes, Valor));
-    }//GEN-LAST:event_jButton2ActionPerformed
-
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //ItemCard.clear();
-        try {
+       Carrinho telaCarrinho = new Carrinho(null, true, carrinho);
+       telaCarrinho.setVisible(true);
+       carrinho.clear();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
+        // TODO add your handling code here:
+         try {
             ItemCard = cardapioDAO.selecionarTodos();
             ArrayList<String> colunas = new ArrayList<String>();
             colunas.add("ID");
@@ -151,59 +149,25 @@ public class Cardapio extends javax.swing.JInternalFrame {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Erro ao consultar Cardapio");
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_formInternalFrameActivated
 
+    private void jTable1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseReleased
+        // TODO add your handling code here:
+        JTable table = (JTable)evt.getSource();
+        int linha = table.rowAtPoint(evt.getPoint());
+        int id = Integer.parseInt(table.getValueAt(linha, 0) + "");
+        String nome = table.getValueAt(linha,1) + "";
+        double valor = Double.parseDouble(table.getValueAt(linha,3) + "");
+        
+        int qtde = Integer.parseInt(JOptionPane.showInputDialog("Quantidade"));
+        
+        carrinho.add(new ItemCarrinho(id, nome, qtde ,valor));
+    }//GEN-LAST:event_jTable1MouseReleased
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        String id = JOptionPane.showInputDialog("ID do item que deseja excluir");
-        this.conectar.conectaBanco();
-        try {
-            this.conectar.updateSQL(
-                    "DELETE FROM cardapio "
-                    + " WHERE "
-                    + "item_ID = '" + id + "'"
-                    + ";"
-            );
-            JOptionPane.showMessageDialog(null, "Item excluido!!");
-
-        } catch (Exception e) {
-            System.out.println("Erro ao deletar item " + e.getMessage());
-            JOptionPane.showMessageDialog(null, "Erro ao deletar item");
-        }
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        String idEdit = JOptionPane.showInputDialog("ID do item que deseja alterar");
-        String EditNome = JOptionPane.showInputDialog("Nome:");
-        String EditIngredientes = JOptionPane.showInputDialog("Ingredientes:");
-        String EditValor = JOptionPane.showInputDialog("Valor:");
-
-        this.conectar.conectaBanco();
-        try {
-            this.conectar.updateSQL(
-                    "UPDATE cardapio "
-                    + " SET "
-                    + "item_nome = '" + EditNome + "',"
-                    + "Item_Igredientes = '" + EditIngredientes + "',"
-                    + "item_Valor = '" + EditValor + "'"
-                    + " WHERE "
-                    + "item_ID = '" + idEdit + "'"
-                    + ";"
-            );
-            JOptionPane.showMessageDialog(null, "Item Editado!");
-
-        } catch (Exception e) {
-            System.out.println("Erro ao deletar item " + e.getMessage());
-            JOptionPane.showMessageDialog(null, "Erro ao deletar item");
-        }
-    }//GEN-LAST:event_jButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
