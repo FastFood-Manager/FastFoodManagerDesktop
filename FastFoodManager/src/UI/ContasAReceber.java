@@ -5,6 +5,8 @@
  */
 package UI;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JOptionPane;
 
 /**
@@ -73,6 +75,11 @@ public class ContasAReceber extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(Receber_Descricao);
 
         jButton1.setText("Limpar campos");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Lançar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -160,10 +167,19 @@ public class ContasAReceber extends javax.swing.JInternalFrame {
         
         conectar.conectaBanco();    //Conecta ao banco de dados
         
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy"); 
+
+        
         Double Recebe_Valor = Double.parseDouble(Receber_Valor.getText());
-        String Recebe_Data = Receber_Data.getText();
+        
+        String Recebe_Data = Receber_Data.getText();       
+        String Data = Recebe_Data;
         String Recebe_Descricao = Receber_Descricao.getText();
         
+        
+        
+        
+
         
         try {                          
                         
@@ -171,10 +187,10 @@ public class ContasAReceber extends javax.swing.JInternalFrame {
                     
                     + "Recebido_Valor,"
                     + "Recebido_Data_Vencimento,"
-                    + "Recebido_Descricao"
+                    + "Recebido_Descricao "
                 + ") VALUES ("
                     + "'" + Recebe_Valor + "',"
-                    + "'" + Recebe_Data + "',"
+                    +  "STR_TO_DATE('" +Recebe_Data +"','%d/%m/%Y')" + ","
                     + "'" + Recebe_Descricao + "'"
                 + ");");
             
@@ -186,9 +202,19 @@ public class ContasAReceber extends javax.swing.JInternalFrame {
         }finally{            
             this.conectar.fechaBanco();
             JOptionPane.showMessageDialog(null, "Conta Lançada com sucesso");
+            Receber_Data.setText("");
+            Receber_Descricao.setText("");
+            Receber_Valor.setText("");    
                }     
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        Receber_Data.setText("");
+        Receber_Descricao.setText("");
+        Receber_Valor.setText("");
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

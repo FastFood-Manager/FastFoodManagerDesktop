@@ -5,6 +5,10 @@
  */
 package UI;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import javax.swing.JOptionPane;
 
 /**
@@ -69,6 +73,11 @@ public class ContasAPagar extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(DescricaoPagar);
 
         jButton1.setText("Limpar campos");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Lançar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -182,7 +191,7 @@ public class ContasAPagar extends javax.swing.JInternalFrame {
         JOptionPane.showMessageDialog (null, "Algum campo não preeenchido, Tente novamente");                           //Alert de Campo não preenchido
     }
     else{
-        
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         conectar.conectaBanco();    //Conecta ao banco de dados
         
         Double Pagar_Valor = Double.parseDouble(ValorPagar.getText());
@@ -190,16 +199,20 @@ public class ContasAPagar extends javax.swing.JInternalFrame {
         String Pagar_Descricao = DescricaoPagar.getText();
         
         
+
+    DateTimeFormatter formate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    LocalDate localDate = LocalDate.parse(Pagar_Data, formate);
+        
         try {                          
                         
-          int codigo =   this.conectar.insertSQL("INSERT INTO  Contas_Pagar("
+            this.conectar.insertSQL("INSERT INTO  Contas_Pagar("
                     
                     + "Pagar_Valor,"
                     + "Pagar_Data_Vencimento,"
                     + "Pagar_Descricao"
                 + ") VALUES ("
                     + "'" + Pagar_Valor + "',"
-                    + "'" + Pagar_Data + "',"
+                    +  "STR_TO_DATE('" +Pagar_Data +"','%d/%m/%Y')" + ","
                     + "'" + Pagar_Descricao + "'"
                 + ");");
             
@@ -211,10 +224,20 @@ public class ContasAPagar extends javax.swing.JInternalFrame {
         }finally{            
             this.conectar.fechaBanco();
             JOptionPane.showMessageDialog(null, "Conta Lançada com sucesso");
+            DataPagar.setText("");
+            ValorPagar.setText("");
+            DescricaoPagar.setText("");
                }
         
     }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        DataPagar.setText("");
+        ValorPagar.setText("");
+        DescricaoPagar.setText("");
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

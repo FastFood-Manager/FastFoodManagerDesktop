@@ -4,7 +4,33 @@
  * and open the template in the editor.
  */
 package UI;
-
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Font.FontFamily;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfWriter;
+import static com.mysql.cj.util.SaslPrep.StringType.QUERY;
+import java.awt.Desktop;
+import static java.awt.SystemColor.desktop;
+import java.beans.Statement;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import models.ItemCardapio;
 /**
  *
  * @author marco
@@ -12,7 +38,7 @@ package UI;
 public class RelatorioGastosLucros extends javax.swing.JInternalFrame {
 
     private static RelatorioGastosLucros myInstance;
-    
+    MySQL conectar = new MySQL();                   //Instancia classe MySQL
         public static RelatorioGastosLucros getInstance(){
             if(myInstance == null) {
                 myInstance = new RelatorioGastosLucros();
@@ -21,6 +47,12 @@ public class RelatorioGastosLucros extends javax.swing.JInternalFrame {
             return myInstance;
         }
         
+   public static final Font BOLD_UNDERLINED = new
+    Font(FontFamily.TIMES_ROMAN, 18, Font.BOLD | Font.UNDERLINE);
+   
+  public static final Font NORMAL = new Font(FontFamily.TIMES_ROMAN, 18);
+
+
     public RelatorioGastosLucros() {
         initComponents();
     }
@@ -35,15 +67,11 @@ public class RelatorioGastosLucros extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        RecebeDataInicio = new javax.swing.JFormattedTextField();
         jLabel3 = new javax.swing.JLabel();
-        jFormattedTextField2 = new javax.swing.JFormattedTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        RecebeDataTermino = new javax.swing.JFormattedTextField();
+        GerarRelatorio = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
 
         setClosable(true);
@@ -51,36 +79,33 @@ public class RelatorioGastosLucros extends javax.swing.JInternalFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Gerar relatório", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 51, 255))); // NOI18N
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Semanal", "Mensal" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setText("Tipo de escolha");
-
         jLabel2.setText("Data de início");
 
         try {
-            jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+            RecebeDataInicio.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        RecebeDataInicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RecebeDataInicioActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Data de término");
 
         try {
-            jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+            RecebeDataTermino.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
 
-        jLabel4.setText("Tipo do relatório");
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Gastos", "Lucros" }));
-
-        jButton1.setText("Gerar relatório");
+        GerarRelatorio.setText("Gerar relatório");
+        GerarRelatorio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GerarRelatorioActionPerformed(evt);
+            }
+        });
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/dinheiro_icon.png"))); // NOI18N
 
@@ -89,100 +114,198 @@ public class RelatorioGastosLucros extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addGap(24, 24, 24))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(RecebeDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(RecebeDataTermino, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(64, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                    .addGap(1, 1, 1)
-                                    .addComponent(jLabel2)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel3))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                    .addGap(5, 5, 5)
-                                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(32, 32, 32)
-                                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel1))
-                                .addGap(32, 32, 32)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
-                                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel4)))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(72, 72, 72)
-                        .addComponent(jButton1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(90, 90, 90)
-                        .addComponent(jLabel5)))
-                .addContainerGap(20, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(GerarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(62, 62, 62))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(103, 103, 103))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(30, 30, 30)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(34, 34, 34)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                    .addComponent(RecebeDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(RecebeDataTermino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addComponent(GerarRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel5)
-                .addGap(14, 14, 14))
+                .addGap(32, 32, 32))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    private void RecebeDataInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RecebeDataInicioActionPerformed
+        
+    }//GEN-LAST:event_RecebeDataInicioActionPerformed
 
+    private void GerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GerarRelatorioActionPerformed
+    if(RecebeDataInicio.getText().equals("") ||  RecebeDataTermino.getText().equals("") ){      //Check se algum campo está vazio
+        JOptionPane.showMessageDialog (null, "Algum campo não preeenchido, Tente novamente");                           //Alert de Campo não preenchido
+    }
+    else{
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        conectar.conectaBanco();    //Conecta ao banco de dados
+        
+        String DataInicio = RecebeDataInicio.getText();
+        String DataTermino = RecebeDataTermino.getText();
+      
+           double totalPagar = 0;
+           double totalRecebido = 0;
+           double Media = 0;
+           
+         try {
+            conectar.conectaBanco();
+            String[] dtini = DataInicio.split("/");
+            String[] dtfim = DataTermino.split("/");
+            this.conectar.executarSQL(
+                    "SELECT sum(Pagar_Valor) Pagar_Valor FROM Contas_Pagar WHERE Pagar_Data_Vencimento between ('"+dtini[2]+"-"+dtini[1]+"-"+dtini[0]+"') AND ('"+dtfim[2]+"-"+dtfim[1]+"-"+dtfim[0]+"')   ; ");                              
+            
+                    
+            ResultSet rs = this.conectar.getResultSet();
+            
+            while (rs.next()) {
+                totalPagar = rs.getDouble("Pagar_Valor");
+            }
+            
+            
+            this.conectar.executarSQL(                           
+            
+                     "SELECT sum(Recebido_Valor) Recebido_Valor FROM Valor_Recebido WHERE Recebido_Data_Vencimento between ('"+dtini[2]+"-"+dtini[1]+"-"+dtini[0]+"') AND ('"+dtfim[2]+"-"+dtfim[1]+"-"+dtfim[0]+"')   ; ");
+            ResultSet r2 = this.conectar.getResultSet();
+            
+            while (r2.next()) {                
+                totalRecebido = r2.getDouble("Recebido_Valor");
+            }
+            
+            
+            this.conectar.executarSQL(
+                    "SELECT AVG(Nota) FROM Feedback; ");                              
+            
+                    
+            ResultSet fb = this.conectar.getResultSet();
+            
+            while (fb.next()) {
+                Media = fb.getDouble("AVG(Nota)");
+            }
+           System.out.println(totalPagar);
+           System.out.println(totalRecebido);
+           double Lucro =  totalRecebido - totalPagar;
+           System.out.println(Media);
+           System.out.println(Lucro);
+           Document document = new Document();
+           try{
+              PdfWriter.getInstance(document, new FileOutputStream("documento.pdf")); 
+              document.open();
+          Paragraph p = new Paragraph();
+       p.setAlignment(Element.ALIGN_CENTER);
+       p.setIndentationLeft(18);
+       p.setFirstLineIndent(-18);
+       document.setPageSize(PageSize.A4);  
+       p.add(new Phrase("FastFood Manager: ", BOLD_UNDERLINED));
+       p.add("Relatorio Gastos e Lucros");
+       p.add(new Paragraph(" "));
+       p.add(new Paragraph(" "));
+
+       p.add(" ");
+       p.add(new Paragraph("Lucro Bruto: ", BOLD_UNDERLINED));
+       p.add(new Paragraph("Valor Lucro Bruto : " + totalRecebido));
+       p.add(new Paragraph(" "));
+       p.add(new Paragraph(" "));
+       p.add(new Paragraph("Lucro Líquido: ", BOLD_UNDERLINED));
+       p.add(new Paragraph("Valor Lucro Líquido : " + Lucro));
+       p.add(new Paragraph(" "));
+       p.add(new Paragraph(" "));
+       p.add(new Paragraph("Média de Feedback: ", BOLD_UNDERLINED));
+       p.add(new Paragraph("Valor da média : " + Media));
+
+
+       document.add(p);
+           }catch(DocumentException | FileNotFoundException ex){
+               System.out.println("Error:"+ex);
+           }finally{
+               document.close();
+           }
+           try{
+               Desktop.getDesktop().open(new File("documento.pdf"));
+           }catch (IOException ex){
+               System.out.println("Error:"+ex);
+           }
+}
+         
+         
+         catch (Exception e) {
+            
+            System.out.println("Erro ao lançar contas a pagar " +  e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao lançar");
+    
+        }finally{            
+            this.conectar.fechaBanco();
+            JOptionPane.showMessageDialog(null, "Relatorio criado com sucesso");
+            
+               }
+        
+    }        
+    }//GEN-LAST:event_GerarRelatorioActionPerformed
+ 
+        
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
-    private javax.swing.JFormattedTextField jFormattedTextField2;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton GerarRelatorio;
+    private javax.swing.JFormattedTextField RecebeDataInicio;
+    private javax.swing.JFormattedTextField RecebeDataTermino;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
+
+
+    private static class Data {
+
+        public Data() {
+        }
+    }
+
+    private static class ItemContas {
+       
+        public ItemContas() {
+        }
+
+        private ItemContas(Double valor) {
+            
+        }
+    }
 }
